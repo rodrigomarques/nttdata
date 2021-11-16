@@ -5,6 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +31,9 @@ public class ProdutoController {
 	
 	@Autowired
 	private ProdutoService prodService;
+	
+	@Value("${paginacao.qtd_por_pagina}")
+	private int qtdPorPagina;
 	
 	@GetMapping(value = "/")
 	public @ResponseBody ResponseEntity<List<Produto>> listar() {
@@ -70,6 +77,30 @@ public class ProdutoController {
 	public @ResponseBody ResponseEntity<Produto> atualizar(@PathVariable("id") Long id, @RequestBody Produto produto) {
 		try {
 			return ResponseEntity.ok().body(prodService.upate(id, produto));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(null);
+		}
+	}
+	
+	@GetMapping("/buscar/{nome}")
+	public @ResponseBody ResponseEntity<Page<Produto>> buscarProduto(@PathVariable("nome") String nome, @RequestParam(value = "pag", defaultValue = "0") int pag) {
+		try {
+			PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina);
+			Page<Produto> produtos = this.prodService.buscarProdutos("%" + nome + "%", pageRequest);
+			
+			return ResponseEntity.ok().body(produtos);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(null);
+		}
+	}
+	
+	@GetMapping("/buscar")
+	public @ResponseBody ResponseEntity<Page<Produto>> buscarProduto(@RequestParam(value = "pag", defaultValue = "0") int pag) {
+		try {
+			PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina);
+			Page<Produto> produtos = this.prodService.buscarProdutos(pageRequest);
+			
+			return ResponseEntity.ok().body(produtos);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(null);
 		}

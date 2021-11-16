@@ -29,50 +29,49 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public Produto save(final Produto produto) throws Exception {
 		if(produto.getCategoria() == null) throw new Exception("Categoria não pode ser nula");
 		
-		final Categoria categoria = categoriaRepository.findById(produto.getCategoria().getId()).get();
+		final Categoria categoria = this.categoriaRepository.findById(produto.getCategoria().getId()).get();
 		produto.setCategoria(categoria);		
 		produto.setStatus(Status.ATIVO);
 		
-		return repository.save(produto);
+		return this.repository.save(produto);
 	}
 
 	@Override
 	public Produto upate(final Long id, final Produto produto) throws Exception {
-		Produto prod = repository.getById(id);
+		Produto prod = this.repository.getById(id);
 		if(prod == null) throw new Exception("Produto não encontrado");
 		
 		prod.clone(produto);
 		prod.setStatus(Status.ATIVO);
-		return repository.save(prod);
+		return this.repository.save(prod);
 	}
 
 	@Override
 	public void deletar(final Long id) throws Exception {
-		Produto prod = repository.getById(id);
+		Produto prod = this.repository.getById(id);
 		if(prod == null) throw new Exception("Produto não encontrado");
 		
-		repository.delete(prod);
+		this.repository.delete(prod);
 	}
 	
 	@Override
 	public Produto desativar(final Long id) throws Exception {
-		Produto prod = repository.findById(id).get();
+		Produto prod = this.repository.findById(id).get();
 		if(prod == null) throw new Exception("Produto não encontrado");
 		
 		prod.setStatus(Status.INATIVO);
-		repository.save(prod);
+		this.repository.save(prod);
 		return prod;
 	}
 
 	@Override
 	public Page<Produto> buscarProdutos(PageRequest pageRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.repository.buscarNome("%", pageRequest);
 	}
 
 	@Override
 	public Page<Produto> buscarProdutos(final String nome, PageRequest pageRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Buscando produtos pelo nome", nome);
+		return this.repository.buscarNome(nome, pageRequest);
 	}
 }

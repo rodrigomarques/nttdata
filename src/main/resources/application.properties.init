@@ -12,3 +12,5 @@ spring.jpa.properties.hibernate.type=trace
 
 spring.jpa.properties.hibernate.id.new_generator_mappings=false
 spring.jackson.serialization.fail-on-empty-beans=false
+
+paginacao.qtd_por_pagina=30

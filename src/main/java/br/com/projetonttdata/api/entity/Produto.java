@@ -13,12 +13,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @Table
+@NamedQueries({
+	@NamedQuery(name = "Produto.buscarNome", 
+			query = "SELECT prod FROM Produto prod INNER JOIN prod.categoria cat WHERE prod.nome LIKE :pnome") })
 public class Produto implements Serializable {
 
 	/**
