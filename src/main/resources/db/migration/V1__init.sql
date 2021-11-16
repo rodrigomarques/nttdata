@@ -4,7 +4,7 @@ CREATE TABLE `categoria` (
 );
 
 CREATE TABLE `produto` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `nome` varchar(100) NOT NULL,
   `estoque` integer NOT NULL,
   `preco_venda` double(10,4) NOT NULL,

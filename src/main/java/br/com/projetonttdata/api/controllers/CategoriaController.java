@@ -36,7 +36,7 @@ public class CategoriaController {
 	}
 
 	@PostMapping("/")
-	public @ResponseBody ResponseEntity<Categoria> getMensagem(@RequestBody Categoria categoria) {
+	public @ResponseBody ResponseEntity<Categoria> salvar(@RequestBody Categoria categoria) {
 		try {
 			return ResponseEntity.ok().body(categoriaService.save(categoria));
 		} catch (Exception e) {
