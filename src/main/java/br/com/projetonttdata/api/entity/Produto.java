@@ -20,7 +20,7 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
-	private Integer id;
+	private Long id;
 	@Column(length = 100)
 	private String nome;
 	@Column(length = 4)
@@ -34,7 +34,7 @@ public class Produto {
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 	
-	public Produto(Integer id, String nome, Integer estoque, BigDecimal precoVenda, Status status) {
+	public Produto(Long id, String nome, Integer estoque, BigDecimal precoVenda, Status status) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -45,10 +45,10 @@ public class Produto {
 	public Produto() {
 		super();
 	}
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getNome() {

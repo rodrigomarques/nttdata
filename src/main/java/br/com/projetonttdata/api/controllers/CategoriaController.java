@@ -29,7 +29,6 @@ public class CategoriaController {
 	@GetMapping(value = "/")
 	public @ResponseBody ResponseEntity<List<Categoria>> listar() {
 		try {
-
 			return ResponseEntity.ok().body(categoriaService.listar());
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(null);

@@ -6,6 +6,6 @@ import br.com.projetonttdata.api.entity.Categoria;
 
 public interface CategoriaService {
 	
-	Categoria save(Categoria categoria);
+	Categoria save(Categoria categoria)throws Exception;
 	List<Categoria> listar();
 }
