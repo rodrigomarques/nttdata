@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -19,6 +20,7 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private Long id;
+	@NotNull(message = "Nome da categoria não pode ser vazio")
 	@Column(name = "nome_categoria")
 	private String nomeCategoria;
 	

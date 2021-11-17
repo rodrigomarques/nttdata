@@ -16,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table
@@ -26,18 +29,20 @@ import org.apache.commons.lang3.StringUtils;
 			query = "SELECT prod FROM Produto prod INNER JOIN prod.categoria cat WHERE prod.nome LIKE :pnome") })
 public class Produto implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3218666159636893657L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private Long id;
 	@Column(length = 100)
+	@Length(min = 3, message = "Nome deve conter pelo menos 3 letras")
 	private String nome;
 	@Column(length = 4)
+	@Min(value = 0, message = "Estoque não pode ser negativo")
+	@NotNull(message = "Estoque não pode ser vazio")
 	private Integer estoque;
+	@NotNull(message = "Preço não pode ser vazio")
+	@Min(value = 0, message = "Preço não pode ser negativo")
 	@Column(name = "preco_venda", precision = 10, scale = 4)
 	private BigDecimal precoVenda;
 	@Enumerated(EnumType.STRING)

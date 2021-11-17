@@ -2,6 +2,8 @@ package br.com.projetonttdata.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetonttdata.api.dto.ProdutoDTO;
+import br.com.projetonttdata.api.entity.Categoria;
 import br.com.projetonttdata.api.entity.Produto;
+import br.com.projetonttdata.api.response.Response;
 import br.com.projetonttdata.api.services.ProdutoService;
 
 @RestController
@@ -46,10 +51,15 @@ public class ProdutoController {
 	}
 
 	@PostMapping("/")
-	public @ResponseBody ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
+	public @ResponseBody ResponseEntity<Response<Produto>> salvar(@Valid @RequestBody Produto produto, BindingResult result) {
+		Response<Produto> response = new Response<Produto>();
 		try {
-			
-			return ResponseEntity.ok().body(prodService.save(produto));
+			if(result.hasErrors()) {
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+				return ResponseEntity.badRequest().body(response);
+			}
+			response.setData(prodService.save(produto));
+			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(null);
 		}
