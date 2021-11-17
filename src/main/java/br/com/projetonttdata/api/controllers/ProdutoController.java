@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.projetonttdata.api.dto.ProdutoDTO;
 import br.com.projetonttdata.api.entity.Produto;
 import br.com.projetonttdata.api.services.ProdutoService;
 
@@ -83,10 +84,10 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/buscar/{nome}")
-	public @ResponseBody ResponseEntity<Page<Produto>> buscarProduto(@PathVariable("nome") String nome, @RequestParam(value = "pag", defaultValue = "0") int pag) {
+	public @ResponseBody ResponseEntity<Page<ProdutoDTO>> buscarProduto(@PathVariable("nome") String nome, @RequestParam(value = "pag", defaultValue = "0") int pag) {
 		try {
 			PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina);
-			Page<Produto> produtos = this.prodService.buscarProdutos("%" + nome + "%", pageRequest);
+			Page<ProdutoDTO> produtos = this.prodService.buscarProdutos("%" + nome + "%", pageRequest);
 			
 			return ResponseEntity.ok().body(produtos);
 		} catch (Exception e) {
@@ -95,10 +96,10 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/buscar")
-	public @ResponseBody ResponseEntity<Page<Produto>> buscarProduto(@RequestParam(value = "pag", defaultValue = "0") int pag) {
+	public @ResponseBody ResponseEntity<Page<ProdutoDTO>> buscarProduto(@RequestParam(value = "pag", defaultValue = "0") int pag) {
 		try {
 			PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina);
-			Page<Produto> produtos = this.prodService.buscarProdutos(pageRequest);
+			Page<ProdutoDTO> produtos = this.prodService.buscarProdutos(pageRequest);
 			
 			return ResponseEntity.ok().body(produtos);
 		} catch (Exception e) {

@@ -157,3 +157,140 @@ Rota para excluir um produto pelo ID
 
 **Return** Status Code 200
 
+- **GET** /produto/buscar
+- **GET** /produto/buscar?pag=2
+
+Rota para buscar os produtos. O retorno será paginado.
+
+**Return** Status Code 200
+
+```
+{
+    "content": [
+        {
+            "id": 1,
+            "nome": "Camisa",
+            "estoque": 90,
+            "precoVenda": 99.0,
+            "totalVenda": 8910.0,
+            "status": "ATIVO",
+            "idCategoria": 1,
+            "categoria": "Categoria 3"
+        },
+        {
+            "id": 3,
+            "nome": "Camisa",
+            "estoque": 90,
+            "precoVenda": 99.0,
+            "totalVenda": 8910.0,
+            "status": "ATIVO",
+            "idCategoria": 1,
+            "categoria": "Categoria 3"
+        },
+        {
+            "id": 4,
+            "nome": "Camisa",
+            "estoque": 90,
+            "precoVenda": 99.0,
+            "totalVenda": 8910.0,
+            "status": "ATIVO",
+            "idCategoria": 1,
+            "categoria": "Categoria 3"
+        }
+    ],
+    "pageable": {
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 0,
+        "pageNumber": 0,
+        "pageSize": 3,
+        "unpaged": false,
+        "paged": true
+    },
+    "last": false,
+    "totalPages": 2,
+    "totalElements": 6,
+    "size": 3,
+    "number": 0,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "first": true,
+    "numberOfElements": 3,
+    "empty": false
+}
+```
+
+- **GET** /produto/buscar/:nome
+- **GET** /produto/buscar/:nome?pag=2
+
+Rota para buscar os produtos pelo nome. O retorno será paginado.
+
+**Return** Status Code 200
+
+```
+{
+    "content": [
+        {
+            "id": 1,
+            "nome": "Camisa",
+            "estoque": 90,
+            "precoVenda": 99.0,
+            "totalVenda": 8910.0,
+            "status": "ATIVO",
+            "idCategoria": 1,
+            "categoria": "Categoria 3"
+        },
+        {
+            "id": 3,
+            "nome": "Camisa",
+            "estoque": 90,
+            "precoVenda": 99.0,
+            "totalVenda": 8910.0,
+            "status": "ATIVO",
+            "idCategoria": 1,
+            "categoria": "Categoria 3"
+        },
+        {
+            "id": 4,
+            "nome": "Camisa",
+            "estoque": 90,
+            "precoVenda": 99.0,
+            "totalVenda": 8910.0,
+            "status": "ATIVO",
+            "idCategoria": 1,
+            "categoria": "Categoria 3"
+        }
+    ],
+    "pageable": {
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 0,
+        "pageNumber": 0,
+        "pageSize": 3,
+        "unpaged": false,
+        "paged": true
+    },
+    "last": false,
+    "totalPages": 2,
+    "totalElements": 6,
+    "size": 3,
+    "number": 0,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "first": true,
+    "numberOfElements": 3,
+    "empty": false
+}
+```

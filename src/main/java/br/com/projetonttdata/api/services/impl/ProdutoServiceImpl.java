@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import br.com.projetonttdata.api.dto.ProdutoDTO;
 import br.com.projetonttdata.api.entity.Categoria;
 import br.com.projetonttdata.api.entity.Produto;
 import br.com.projetonttdata.api.entity.Status;
@@ -65,13 +66,26 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 
 	@Override
-	public Page<Produto> buscarProdutos(PageRequest pageRequest) {
-		return this.repository.buscarNome("%", pageRequest);
+	public Page<ProdutoDTO> buscarProdutos(PageRequest pageRequest) {
+		Page<Produto> produtos = this.repository.buscarNome("%", pageRequest);
+		Page<ProdutoDTO> listaProd = produtos.map( p -> this.converterProdutoDto(p)); 
+		return listaProd;
 	}
 
 	@Override
-	public Page<Produto> buscarProdutos(final String nome, PageRequest pageRequest) {
+	public Page<ProdutoDTO> buscarProdutos(final String nome, PageRequest pageRequest) {
 		log.info("Buscando produtos pelo nome", nome);
-		return this.repository.buscarNome(nome, pageRequest);
+		Page<Produto> produtos = this.repository.buscarNome(nome, pageRequest);
+		Page<ProdutoDTO> listaProd = produtos.map( p -> this.converterProdutoDto(p)); 
+		return listaProd;
+	}
+	
+	private ProdutoDTO converterProdutoDto(final Produto prod) {
+		ProdutoDTO prodDto = new ProdutoDTO(prod.getId(), prod.getNome(), prod.getEstoque(), prod.getPrecoVenda(), prod.getStatus().name());
+		if(prod.getCategoria() != null) {
+			prodDto.setIdCategoria( prod.getCategoria().getId() );
+			prodDto.setCategoria( prod.getCategoria().getNomeCategoria() );
+		}
+		return prodDto;
 	}
 }
